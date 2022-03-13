@@ -1,9 +1,8 @@
 package entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User {
@@ -12,6 +11,15 @@ public class User {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long userId;
+
+   @ManyToMany
+   @JoinTable(
+           name = "user_address",
+             joinColumns = @JoinColumn(name =  "user_id"),
+             inverseJoinColumns = @JoinColumn(name = "address_id")
+   )
+   List<Adresse> adresseList = new ArrayList<>();
+
 
     public User() {
     }
@@ -23,6 +31,9 @@ public class User {
         this.userId = userId;
     }
 
+    public void addAdresse(Adresse adresse){
+        adresseList.add(adresse);
+    }
     public String getNom() {
         return nom;
     }
